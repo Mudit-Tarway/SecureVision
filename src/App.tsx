@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Shield, Eye, Bell, Database, Users, CreditCard, Mail, Phone, Menu, X, CheckCircle, Camera, Lock, Zap, Check, Star, User, ArrowRight, Home, Building, Store, School, Factory, Car, Github, Linkedin } from 'lucide-react';
+import { Shield, Eye, Bell, Database, Users, CreditCard, Mail, Phone, Menu, X, CheckCircle, Camera, Lock, Zap, Check, Star, User, ArrowRight, Home, Building, Store, School, Factory, Car, Github, Linkedin, Twitter } from 'lucide-react';
 
 function App() {
   const [activeSection, setActiveSection] = useState('home');
@@ -110,75 +110,36 @@ function App() {
     }
   };
 
-  const useCases = [
-    {
-      icon: Home,
-      title: 'Residential Homes',
-      description: 'Protect your family and property with intelligent monitoring that recognizes familiar faces and alerts you to unknown visitors.',
-      features: ['Family member recognition', 'Visitor logging', 'Package delivery alerts', 'Night vision monitoring']
-    },
-    {
-      icon: Building,
-      title: 'Office Buildings',
-      description: 'Enhance workplace security with employee recognition and unauthorized access prevention for corporate environments.',
-      features: ['Employee access control', 'Visitor management', 'After-hours monitoring', 'Multi-floor coverage']
-    },
-    {
-      icon: Store,
-      title: 'Retail Stores',
-      description: 'Monitor customer traffic, prevent theft, and identify VIP customers for personalized service in retail environments.',
-      features: ['Customer analytics', 'Theft prevention', 'VIP recognition', 'Staff monitoring']
-    },
-    {
-      icon: School,
-      title: 'Educational Institutions',
-      description: 'Ensure student safety with campus-wide monitoring, unauthorized entry prevention, and emergency response systems.',
-      features: ['Student safety', 'Campus security', 'Visitor screening', 'Emergency alerts']
-    },
-    {
-      icon: Factory,
-      title: 'Industrial Facilities',
-      description: 'Secure manufacturing plants and warehouses with robust monitoring for restricted areas and safety compliance.',
-      features: ['Restricted area access', 'Safety compliance', 'Worker identification', 'Perimeter security']
-    },
-    {
-      icon: Car,
-      title: 'Parking Areas',
-      description: 'Monitor parking lots and garages with license plate recognition and unauthorized vehicle detection.',
-      features: ['Vehicle recognition', 'Parking management', 'Theft prevention', '24/7 surveillance']
-    }
-  ];
-
   const teamMembers = [
     {
       name: 'Mudit Tarway',
       role: 'Project Lead & AI Developer',
-      description: 'Specialized in machine learning algorithms and facial recognition systems. Led the development of core AI features.',
+      description: 'Specialized in AI algorithms and facial recognition systems',
       avatar: 'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=400'
     },
     {
       name: 'Krish Jaiswal',
       role: 'Backend Developer',
-      description: 'Expert in server architecture and database management. Built the robust backend infrastructure for real-time processing.',
+      description: 'Expert in server architecture and database management',
       avatar: 'https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=400'
     },
     {
       name: 'Soumyadeep Das',
       role: 'Frontend Developer',
-      description: 'UI/UX specialist focused on creating intuitive user interfaces. Designed the user-friendly dashboard and mobile app.',
-      avatar: 'https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&w=400'
+      description: 'UI/UX specialist and web application developer',
+      avatar: 'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=400'
     },
     {
       name: 'Ranit Panda',
       role: 'Security Engineer',
-      description: 'Cybersecurity expert ensuring data protection and secure communication protocols throughout the system.',
-      avatar: 'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=400'
+      description: 'Cybersecurity expert and system security architect',
+      avatar: 'https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&w=400'
     },
     {
       name: 'Tamalika Chakraborty',
-      role: 'Quality Assurance & Testing',
-      description: 'Testing specialist ensuring system reliability and performance optimization across all platforms and use cases.',
-      avatar: 'https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=400'
+      role: 'Data Scientist',
+      description: 'Machine learning specialist and data analytics expert',
+      avatar: 'https://images.pexels.com/photos/1130626/pexels-photo-1130626.jpeg?auto=compress&cs=tinysrgb&w=400'
     }
   ];
 
@@ -197,7 +158,7 @@ function App() {
             
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center space-x-8">
-              {['home', 'product', 'applications', 'team', 'pricing', 'contact'].map((section) => (
+              {['home', 'product', 'applications', 'pricing', 'team', 'contact'].map((section) => (
                 <button
                   key={section}
                   onClick={() => scrollToSection(section)}
@@ -205,8 +166,7 @@ function App() {
                     activeSection === section ? 'text-blue-400' : 'text-gray-300'
                   }`}
                 >
-                  {section === 'product' ? 'Product Details' : 
-                   section === 'applications' ? 'Applications' : section}
+                  {section === 'product' ? 'Product Details' : section}
                 </button>
               ))}
               
@@ -247,14 +207,13 @@ function App() {
           {/* Mobile Navigation */}
           {isMenuOpen && (
             <nav className="md:hidden mt-4 pb-4 border-t border-gray-800 pt-4">
-              {['home', 'product', 'applications', 'team', 'pricing', 'contact'].map((section) => (
+              {['home', 'product', 'applications', 'pricing', 'team', 'contact'].map((section) => (
                 <button
                   key={section}
                   onClick={() => scrollToSection(section)}
                   className="block w-full text-left py-2 capitalize transition-colors hover:text-blue-400"
                 >
-                  {section === 'product' ? 'Product Details' : 
-                   section === 'applications' ? 'Applications' : section}
+                  {section === 'product' ? 'Product Details' : section}
                 </button>
               ))}
               {!isLoggedIn && (
@@ -633,48 +592,134 @@ function App() {
                 Where You Can Use Secure Vision
               </h2>
               <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-                Our AI-powered security solution adapts to various environments, providing comprehensive protection across different sectors and use cases
+                Our AI-powered security solution adapts to various environments and use cases, 
+                providing comprehensive protection wherever you need it most
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {useCases.map((useCase, index) => {
-                const IconComponent = useCase.icon;
-                return (
-                  <div key={index} className="bg-gray-800/60 p-6 rounded-2xl border border-gray-700 hover:border-blue-500 transition-all hover:transform hover:scale-105">
-                    <div className="flex items-center mb-4">
-                      <div className="bg-gradient-to-r from-blue-500 to-purple-600 w-12 h-12 rounded-lg flex items-center justify-center mr-4">
-                        <IconComponent className="h-6 w-6" />
-                      </div>
-                      <h3 className="text-xl font-semibold">{useCase.title}</h3>
-                    </div>
-                    
-                    <p className="text-gray-300 mb-4 leading-relaxed">
-                      {useCase.description}
-                    </p>
-                    
-                    <div className="space-y-2">
-                      <h4 className="text-sm font-semibold text-blue-400 mb-2">Key Features:</h4>
-                      <ul className="space-y-1">
-                        {useCase.features.map((feature, featureIndex) => (
-                          <li key={featureIndex} className="flex items-center text-sm text-gray-400">
-                            <div className="w-1.5 h-1.5 bg-blue-400 rounded-full mr-2 flex-shrink-0"></div>
-                            {feature}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+              {/* Residential Homes */}
+              <div className="bg-gray-800/60 p-8 rounded-2xl border border-gray-700 hover:border-blue-500 transition-all hover:transform hover:scale-105">
+                <div className="flex items-center mb-6">
+                  <div className="bg-gradient-to-r from-blue-500 to-purple-600 w-12 h-12 rounded-lg flex items-center justify-center mr-4">
+                    <Home className="h-6 w-6" />
                   </div>
-                );
-              })}
+                  <h3 className="text-xl font-semibold">Residential Homes</h3>
+                </div>
+                <p className="text-gray-300 mb-4 leading-relaxed">
+                  Perfect for family homes, apartments, and residential complexes. Monitor who visits your property and keep your loved ones safe.
+                </p>
+                <ul className="space-y-2 text-sm text-gray-400">
+                  <li>• Family member recognition</li>
+                  <li>• Visitor logging and alerts</li>
+                  <li>• Package delivery monitoring</li>
+                  <li>• Night-time security</li>
+                </ul>
+              </div>
+
+              {/* Office Buildings */}
+              <div className="bg-gray-800/60 p-8 rounded-2xl border border-gray-700 hover:border-blue-500 transition-all hover:transform hover:scale-105">
+                <div className="flex items-center mb-6">
+                  <div className="bg-gradient-to-r from-purple-500 to-blue-600 w-12 h-12 rounded-lg flex items-center justify-center mr-4">
+                    <Building className="h-6 w-6" />
+                  </div>
+                  <h3 className="text-xl font-semibold">Office Buildings</h3>
+                </div>
+                <p className="text-gray-300 mb-4 leading-relaxed">
+                  Enhance workplace security with employee access control and visitor management for corporate environments.
+                </p>
+                <ul className="space-y-2 text-sm text-gray-400">
+                  <li>• Employee access control</li>
+                  <li>• Visitor management system</li>
+                  <li>• After-hours monitoring</li>
+                  <li>• Meeting room security</li>
+                </ul>
+              </div>
+
+              {/* Retail Stores */}
+              <div className="bg-gray-800/60 p-8 rounded-2xl border border-gray-700 hover:border-blue-500 transition-all hover:transform hover:scale-105">
+                <div className="flex items-center mb-6">
+                  <div className="bg-gradient-to-r from-blue-500 to-purple-600 w-12 h-12 rounded-lg flex items-center justify-center mr-4">
+                    <Store className="h-6 w-6" />
+                  </div>
+                  <h3 className="text-xl font-semibold">Retail Stores</h3>
+                </div>
+                <p className="text-gray-300 mb-4 leading-relaxed">
+                  Protect your business with customer analytics, theft prevention, and staff monitoring capabilities.
+                </p>
+                <ul className="space-y-2 text-sm text-gray-400">
+                  <li>• Customer behavior analysis</li>
+                  <li>• Theft prevention alerts</li>
+                  <li>• Staff attendance tracking</li>
+                  <li>• VIP customer recognition</li>
+                </ul>
+              </div>
+
+              {/* Educational Institutions */}
+              <div className="bg-gray-800/60 p-8 rounded-2xl border border-gray-700 hover:border-blue-500 transition-all hover:transform hover:scale-105">
+                <div className="flex items-center mb-6">
+                  <div className="bg-gradient-to-r from-purple-500 to-blue-600 w-12 h-12 rounded-lg flex items-center justify-center mr-4">
+                    <School className="h-6 w-6" />
+                  </div>
+                  <h3 className="text-xl font-semibold">Educational Institutions</h3>
+                </div>
+                <p className="text-gray-300 mb-4 leading-relaxed">
+                  Ensure campus safety with student and staff recognition, unauthorized access prevention, and emergency response.
+                </p>
+                <ul className="space-y-2 text-sm text-gray-400">
+                  <li>• Student safety monitoring</li>
+                  <li>• Unauthorized access alerts</li>
+                  <li>• Campus visitor management</li>
+                  <li>• Emergency response system</li>
+                </ul>
+              </div>
+
+              {/* Industrial Facilities */}
+              <div className="bg-gray-800/60 p-8 rounded-2xl border border-gray-700 hover:border-blue-500 transition-all hover:transform hover:scale-105">
+                <div className="flex items-center mb-6">
+                  <div className="bg-gradient-to-r from-blue-500 to-purple-600 w-12 h-12 rounded-lg flex items-center justify-center mr-4">
+                    <Factory className="h-6 w-6" />
+                  </div>
+                  <h3 className="text-xl font-semibold">Industrial Facilities</h3>
+                </div>
+                <p className="text-gray-300 mb-4 leading-relaxed">
+                  Secure manufacturing plants and industrial sites with restricted area monitoring and safety compliance.
+                </p>
+                <ul className="space-y-2 text-sm text-gray-400">
+                  <li>• Restricted area access control</li>
+                  <li>• Safety compliance monitoring</li>
+                  <li>• Contractor identification</li>
+                  <li>• Equipment area security</li>
+                </ul>
+              </div>
+
+              {/* Parking Areas */}
+              <div className="bg-gray-800/60 p-8 rounded-2xl border border-gray-700 hover:border-blue-500 transition-all hover:transform hover:scale-105">
+                <div className="flex items-center mb-6">
+                  <div className="bg-gradient-to-r from-purple-500 to-blue-600 w-12 h-12 rounded-lg flex items-center justify-center mr-4">
+                    <Car className="h-6 w-6" />
+                  </div>
+                  <h3 className="text-xl font-semibold">Parking Areas</h3>
+                </div>
+                <p className="text-gray-300 mb-4 leading-relaxed">
+                  Monitor parking lots and garages with vehicle recognition, unauthorized access detection, and security alerts.
+                </p>
+                <ul className="space-y-2 text-sm text-gray-400">
+                  <li>• Vehicle owner recognition</li>
+                  <li>• Unauthorized parking alerts</li>
+                  <li>• Parking space management</li>
+                  <li>• Vandalism prevention</li>
+                </ul>
+              </div>
             </div>
 
             {/* Call to Action */}
-            <div className="text-center mt-16">
+            <div className="text-center">
               <div className="bg-gradient-to-r from-blue-500/20 to-purple-600/20 p-8 rounded-2xl border border-blue-500/30">
-                <h3 className="text-2xl font-bold mb-4">Ready to Secure Your Space?</h3>
+                <h3 className="text-2xl font-bold mb-4 text-blue-300">Ready to Secure Your Space?</h3>
                 <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
-                  Whether it's your home, office, or business, Secure Vision adapts to your specific security needs with intelligent AI monitoring.
+                  No matter what type of property you need to protect, Secure Vision adapts to your specific requirements 
+                  and provides the security solution you need.
                 </p>
                 {!isLoggedIn ? (
                   <button
@@ -697,98 +742,8 @@ function App() {
         </div>
       </section>
 
-      {/* Team Section */}
-      <section id="team" className="py-20 bg-gray-800/50">
-        <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                Meet Our Team
-              </h2>
-              <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-                The brilliant minds behind Secure Vision - a dedicated team of experts passionate about revolutionizing home security through AI technology
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {teamMembers.map((member, index) => (
-                <div key={index} className="bg-gray-800/60 p-6 rounded-2xl border border-gray-700 hover:border-blue-500 transition-all hover:transform hover:scale-105 text-center">
-                  <div className="mb-6">
-                    <img
-                      src={member.avatar}
-                      alt={member.name}
-                      className="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-gradient-to-r from-blue-500 to-purple-600 object-cover"
-                    />
-                    <h3 className="text-xl font-bold mb-1">{member.name}</h3>
-                    <p className="text-blue-400 font-semibold text-sm mb-3">{member.role}</p>
-                  </div>
-                  
-                  <p className="text-gray-300 text-sm leading-relaxed mb-6">
-                    {member.description}
-                  </p>
-                  
-                  <div className="flex justify-center space-x-3">
-                    <button className="bg-gray-700 hover:bg-blue-600 p-2 rounded-lg transition-colors">
-                      <Github className="h-4 w-4" />
-                    </button>
-                    <button className="bg-gray-700 hover:bg-blue-600 p-2 rounded-lg transition-colors">
-                      <Linkedin className="h-4 w-4" />
-                    </button>
-                    <button className="bg-gray-700 hover:bg-blue-600 p-2 rounded-lg transition-colors">
-                      <Mail className="h-4 w-4" />
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Team Stats */}
-            <div className="mt-16 grid grid-cols-1 md:grid-cols-4 gap-8">
-              <div className="text-center">
-                <div className="bg-gradient-to-r from-blue-500 to-purple-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Users className="h-8 w-8" />
-                </div>
-                <h4 className="text-2xl font-bold text-blue-400 mb-2">5</h4>
-                <p className="text-gray-300">Team Members</p>
-              </div>
-              <div className="text-center">
-                <div className="bg-gradient-to-r from-purple-500 to-blue-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Zap className="h-8 w-8" />
-                </div>
-                <h4 className="text-2xl font-bold text-blue-400 mb-2">6+</h4>
-                <p className="text-gray-300">Months Development</p>
-              </div>
-              <div className="text-center">
-                <div className="bg-gradient-to-r from-blue-500 to-purple-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Eye className="h-8 w-8" />
-                </div>
-                <h4 className="text-2xl font-bold text-blue-400 mb-2">99.7%</h4>
-                <p className="text-gray-300">Recognition Accuracy</p>
-              </div>
-              <div className="text-center">
-                <div className="bg-gradient-to-r from-purple-500 to-blue-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Shield className="h-8 w-8" />
-                </div>
-                <h4 className="text-2xl font-bold text-blue-400 mb-2">24/7</h4>
-                <p className="text-gray-300">Security Monitoring</p>
-              </div>
-            </div>
-
-            {/* Academic Project Note */}
-            <div className="mt-16 text-center">
-              <div className="bg-gradient-to-r from-blue-500/20 to-purple-600/20 p-6 rounded-2xl border border-blue-500/30 max-w-2xl mx-auto">
-                <h4 className="text-lg font-semibold mb-3 text-blue-400">Academic Excellence</h4>
-                <p className="text-gray-300 text-sm leading-relaxed">
-                  This project represents the culmination of our academic journey, combining theoretical knowledge with practical implementation to create a real-world solution for modern security challenges.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Pricing Section */}
-      <section id="pricing" className="py-20">
+      <section id="pricing" className="py-20 bg-gray-800/50">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-16">
@@ -935,6 +890,83 @@ function App() {
         </div>
       </section>
 
+      {/* Team Section */}
+      <section id="team" className="py-20">
+        <div className="container mx-auto px-4">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                Meet Our Team
+              </h2>
+              <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+                The brilliant minds behind Secure Vision - a dedicated team of experts passionate about 
+                creating innovative security solutions for the modern world
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+              {teamMembers.map((member, index) => (
+                <div key={index} className="bg-gray-800/60 p-8 rounded-2xl border border-gray-700 hover:border-blue-500 transition-all hover:transform hover:scale-105 text-center">
+                  <div className="mb-6">
+                    <img
+                      src={member.avatar}
+                      alt={member.name}
+                      className="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-blue-500/30 object-cover"
+                    />
+                    <h3 className="text-xl font-bold mb-2 text-white">{member.name}</h3>
+                    <p className="text-blue-400 font-semibold mb-3">{member.role}</p>
+                    <p className="text-gray-300 text-sm leading-relaxed">{member.description}</p>
+                  </div>
+                  
+                  <div className="flex justify-center space-x-4">
+                    <button className="w-10 h-10 bg-gray-700 hover:bg-blue-600 rounded-full flex items-center justify-center transition-colors">
+                      <Linkedin className="h-4 w-4" />
+                    </button>
+                    <button className="w-10 h-10 bg-gray-700 hover:bg-gray-600 rounded-full flex items-center justify-center transition-colors">
+                      <Github className="h-4 w-4" />
+                    </button>
+                    <button className="w-10 h-10 bg-gray-700 hover:bg-blue-400 rounded-full flex items-center justify-center transition-colors">
+                      <Twitter className="h-4 w-4" />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Team Stats */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+              <div className="text-center">
+                <div className="text-3xl font-bold text-blue-400 mb-2">5+</div>
+                <div className="text-gray-300">Team Members</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-purple-400 mb-2">2+</div>
+                <div className="text-gray-300">Years Experience</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-blue-400 mb-2">99.7%</div>
+                <div className="text-gray-300">Accuracy Rate</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-purple-400 mb-2">24/7</div>
+                <div className="text-gray-300">Support</div>
+              </div>
+            </div>
+
+            {/* Team Mission */}
+            <div className="bg-gradient-to-r from-blue-500/20 to-purple-600/20 p-8 rounded-2xl border border-blue-500/30 text-center">
+              <h3 className="text-2xl font-bold mb-4 text-blue-300">Our Mission</h3>
+              <p className="text-gray-300 max-w-3xl mx-auto leading-relaxed">
+                We are committed to revolutionizing home and business security through cutting-edge AI technology. 
+                Our team combines expertise in artificial intelligence, software development, and cybersecurity to 
+                create solutions that are not only powerful but also accessible to everyone. We believe that 
+                advanced security shouldn't be complicated - it should be intelligent, reliable, and easy to use.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Payment Section */}
       {isLoggedIn && (
         <section id="payment" className="py-20 bg-gray-800/50">
@@ -1056,7 +1088,7 @@ function App() {
       )}
 
       {/* Contact Section */}
-      <section id="contact" className="py-20">
+      <section id="contact" className="py-20 bg-gray-800/50">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
