@@ -1,11 +1,24 @@
 import React, { useState } from 'react';
-import { Shield, Eye, Bell, Database, Users, CreditCard, Mail, Phone, Menu, X, CheckCircle, Camera, Lock, Zap, Check, Star } from 'lucide-react';
+import { Shield, Eye, Bell, Database, Users, CreditCard, Mail, Phone, Menu, X, CheckCircle, Camera, Lock, Zap, Check, Star, User, ArrowRight } from 'lucide-react';
 
 function App() {
   const [activeSection, setActiveSection] = useState('home');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState('monthly');
+  const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
+  const [showEmailConfirmation, setShowEmailConfirmation] = useState(false);
+  const [userEmail, setUserEmail] = useState('');
+  
+  const [loginData, setLoginData] = useState({
+    email: '',
+    password: '',
+    confirmPassword: '',
+    isSignUp: false
+  });
+  
   const [formData, setFormData] = useState({
     name: '',
     cardNumber: '',
@@ -21,17 +34,47 @@ function App() {
     }
   };
 
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (loginData.email && loginData.password) {
+      if (loginData.isSignUp && loginData.password !== loginData.confirmPassword) {
+        alert('Passwords do not match!');
+        return;
+      }
+      setIsLoggedIn(true);
+      setUserEmail(loginData.email);
+      setShowLogin(false);
+      setShowSubscriptionModal(true);
+    }
+  };
+
+  const handleSubscriptionSelect = (plan: string) => {
+    setSelectedPlan(plan);
+    setShowSubscriptionModal(false);
+    scrollToSection('payment');
+  };
+
   const handlePayment = (e: React.FormEvent) => {
     e.preventDefault();
     if (formData.name && formData.cardNumber) {
       setPaymentSuccess(true);
-      setTimeout(() => setPaymentSuccess(false), 5000);
+      setTimeout(() => {
+        setPaymentSuccess(false);
+        setShowEmailConfirmation(true);
+      }, 3000);
     }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
       ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleLoginInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLoginData({
+      ...loginData,
       [e.target.name]: e.target.value
     });
   };
@@ -81,8 +124,8 @@ function App() {
             </div>
             
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex space-x-8">
-              {['home', 'product', 'pricing', 'payment', 'contact'].map((section) => (
+            <nav className="hidden md:flex items-center space-x-8">
+              {['home', 'product', 'pricing', 'contact'].map((section) => (
                 <button
                   key={section}
                   onClick={() => scrollToSection(section)}
@@ -93,6 +136,30 @@ function App() {
                   {section === 'product' ? 'Product Details' : section}
                 </button>
               ))}
+              
+              {!isLoggedIn ? (
+                <button
+                  onClick={() => setShowLogin(true)}
+                  className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 px-6 py-2 rounded-lg font-semibold transition-all flex items-center"
+                >
+                  <User className="h-4 w-4 mr-2" />
+                  Login
+                </button>
+              ) : (
+                <div className="flex items-center space-x-4">
+                  <span className="text-green-400 text-sm">Welcome!</span>
+                  <button
+                    onClick={() => {
+                      setIsLoggedIn(false);
+                      setUserEmail('');
+                      setShowSubscriptionModal(false);
+                    }}
+                    className="text-gray-300 hover:text-white transition-colors"
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
             </nav>
 
             {/* Mobile Menu Button */}
@@ -107,7 +174,7 @@ function App() {
           {/* Mobile Navigation */}
           {isMenuOpen && (
             <nav className="md:hidden mt-4 pb-4 border-t border-gray-800 pt-4">
-              {['home', 'product', 'pricing', 'payment', 'contact'].map((section) => (
+              {['home', 'product', 'pricing', 'contact'].map((section) => (
                 <button
                   key={section}
                   onClick={() => scrollToSection(section)}
@@ -116,10 +183,234 @@ function App() {
                   {section === 'product' ? 'Product Details' : section}
                 </button>
               ))}
+              {!isLoggedIn && (
+                <button
+                  onClick={() => {
+                    setShowLogin(true);
+                    setIsMenuOpen(false);
+                  }}
+                  className="block w-full text-left py-2 text-blue-400 font-semibold"
+                >
+                  Login
+                </button>
+              )}
             </nav>
           )}
         </div>
       </header>
+
+      {/* Login Modal */}
+      {showLogin && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-gray-800 rounded-2xl p-8 max-w-md w-full border border-gray-700">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                {loginData.isSignUp ? 'Sign Up' : 'Login'}
+              </h2>
+              <button
+                onClick={() => setShowLogin(false)}
+                className="text-gray-400 hover:text-white transition-colors"
+              >
+                <X className="h-6 w-6" />
+              </button>
+            </div>
+
+            <form onSubmit={handleLogin} className="space-y-4">
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={loginData.email}
+                  onChange={handleLoginInputChange}
+                  className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  placeholder="Enter your email"
+                  required
+                />
+              </div>
+
+              <div>
+                <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-2">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  value={loginData.password}
+                  onChange={handleLoginInputChange}
+                  className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  placeholder="Enter your password"
+                  required
+                />
+              </div>
+
+              {loginData.isSignUp && (
+                <div>
+                  <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-300 mb-2">
+                    Confirm Password
+                  </label>
+                  <input
+                    type="password"
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    value={loginData.confirmPassword}
+                    onChange={handleLoginInputChange}
+                    className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                    placeholder="Confirm your password"
+                    required
+                  />
+                </div>
+              )}
+
+              <button
+                type="submit"
+                className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 px-6 py-3 rounded-lg font-semibold transition-all transform hover:scale-105"
+              >
+                {loginData.isSignUp ? 'Sign Up' : 'Login'}
+              </button>
+            </form>
+
+            <div className="mt-6 text-center">
+              <button
+                onClick={() => setLoginData({ ...loginData, isSignUp: !loginData.isSignUp })}
+                className="text-blue-400 hover:text-blue-300 transition-colors"
+              >
+                {loginData.isSignUp ? 'Already have an account? Login' : "Don't have an account? Sign Up"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Subscription Selection Modal */}
+      {showSubscriptionModal && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-gray-800 rounded-2xl p-8 max-w-4xl w-full border border-gray-700 max-h-[90vh] overflow-y-auto">
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                Choose Your Plan
+              </h2>
+              <p className="text-gray-300">Select the perfect plan for your home security needs</p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Monthly Plan */}
+              <div className="bg-gray-700/50 p-6 rounded-xl border border-gray-600 hover:border-blue-500 transition-all">
+                <div className="text-center mb-6">
+                  <h3 className="text-xl font-bold mb-2">Monthly Plan</h3>
+                  <div className="mb-4">
+                    <span className="text-3xl font-bold text-blue-400">₹799</span>
+                    <span className="text-gray-400 ml-2">per month</span>
+                  </div>
+                </div>
+
+                <ul className="space-y-3 mb-6">
+                  {pricingPlans.monthly.features.map((feature, index) => (
+                    <li key={index} className="flex items-center text-sm">
+                      <Check className="h-4 w-4 text-green-400 mr-2 flex-shrink-0" />
+                      <span className="text-gray-300">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <button
+                  onClick={() => handleSubscriptionSelect('monthly')}
+                  className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 px-6 py-3 rounded-lg font-semibold transition-all transform hover:scale-105 flex items-center justify-center"
+                >
+                  Choose Monthly
+                  <ArrowRight className="h-4 w-4 ml-2" />
+                </button>
+              </div>
+
+              {/* Yearly Plan */}
+              <div className="bg-gray-700/50 p-6 rounded-xl border border-blue-500 ring-2 ring-blue-500/20 relative">
+                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                  <div className="bg-gradient-to-r from-blue-500 to-purple-600 px-3 py-1 rounded-full text-xs font-semibold flex items-center">
+                    <Star className="h-3 w-3 mr-1" />
+                    Most Popular
+                  </div>
+                </div>
+
+                <div className="text-center mb-6">
+                  <h3 className="text-xl font-bold mb-2">Yearly Plan</h3>
+                  <div className="mb-2">
+                    <span className="text-3xl font-bold text-blue-400">₹8,999</span>
+                    <span className="text-gray-400 ml-2">per year</span>
+                  </div>
+                  <div className="bg-green-500/20 text-green-400 px-2 py-1 rounded-full text-xs font-semibold mb-4 inline-block">
+                    Save ₹589
+                  </div>
+                </div>
+
+                <ul className="space-y-3 mb-6">
+                  {pricingPlans.yearly.features.map((feature, index) => (
+                    <li key={index} className="flex items-center text-sm">
+                      <Check className="h-4 w-4 text-green-400 mr-2 flex-shrink-0" />
+                      <span className="text-gray-300">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <button
+                  onClick={() => handleSubscriptionSelect('yearly')}
+                  className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 px-6 py-3 rounded-lg font-semibold transition-all transform hover:scale-105 flex items-center justify-center"
+                >
+                  Choose Yearly
+                  <ArrowRight className="h-4 w-4 ml-2" />
+                </button>
+              </div>
+            </div>
+
+            <div className="text-center mt-6">
+              <button
+                onClick={() => setShowSubscriptionModal(false)}
+                className="text-gray-400 hover:text-white transition-colors"
+              >
+                I'll decide later
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Email Confirmation Modal */}
+      {showEmailConfirmation && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-gray-800 rounded-2xl p-8 max-w-md w-full border border-gray-700 text-center">
+            <div className="bg-gradient-to-r from-green-500/20 to-blue-500/20 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 border border-green-500/30">
+              <Mail className="h-10 w-10 text-green-400" />
+            </div>
+            
+            <h3 className="text-2xl font-semibold mb-4 text-green-400">Payment Successful!</h3>
+            <p className="text-gray-300 mb-4">
+              Thank you for subscribing to Secure Vision!
+            </p>
+            <div className="bg-blue-500/20 border border-blue-500/30 rounded-lg p-4 mb-6">
+              <p className="text-blue-300 font-semibold text-sm mb-2">
+                AI-Powered Face Detection Software Link
+              </p>
+              <p className="text-gray-300 text-sm">
+                The download link and setup instructions will be sent to:
+              </p>
+              <p className="text-blue-400 font-semibold mt-2">{userEmail}</p>
+            </div>
+            <p className="text-sm text-gray-400 mb-6">
+              Please check your email within the next 5-10 minutes. Don't forget to check your spam folder.
+            </p>
+            
+            <button
+              onClick={() => setShowEmailConfirmation(false)}
+              className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 px-6 py-3 rounded-lg font-semibold transition-all transform hover:scale-105"
+            >
+              Got it!
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Home Section */}
       <section id="home" className="pt-20 min-h-screen flex items-center">
@@ -139,17 +430,26 @@ function App() {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+              {!isLoggedIn ? (
+                <button
+                  onClick={() => setShowLogin(true)}
+                  className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 px-8 py-4 rounded-lg font-semibold transition-all transform hover:scale-105"
+                >
+                  Get Started
+                </button>
+              ) : (
+                <button
+                  onClick={() => setShowSubscriptionModal(true)}
+                  className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 px-8 py-4 rounded-lg font-semibold transition-all transform hover:scale-105"
+                >
+                  Choose Your Plan
+                </button>
+              )}
               <button
                 onClick={() => scrollToSection('product')}
-                className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 px-8 py-4 rounded-lg font-semibold transition-all transform hover:scale-105"
-              >
-                Explore Features
-              </button>
-              <button
-                onClick={() => scrollToSection('pricing')}
                 className="border border-blue-400 hover:bg-blue-400 hover:text-gray-900 px-8 py-4 rounded-lg font-semibold transition-all"
               >
-                View Pricing
+                Explore Features
               </button>
             </div>
 
@@ -261,6 +561,13 @@ function App() {
               <p className="text-xl text-gray-300 max-w-2xl mx-auto">
                 Select the perfect plan for your home security needs
               </p>
+              {!isLoggedIn && (
+                <div className="bg-yellow-500/20 border border-yellow-500/30 rounded-lg p-4 mt-6 max-w-md mx-auto">
+                  <p className="text-yellow-300 text-sm">
+                    Please login first to select and purchase a plan
+                  </p>
+                </div>
+              )}
             </div>
 
             {/* Plan Toggle */}
@@ -314,10 +621,17 @@ function App() {
                 </ul>
 
                 <button
-                  onClick={() => scrollToSection('payment')}
+                  onClick={() => {
+                    if (!isLoggedIn) {
+                      setShowLogin(true);
+                    } else {
+                      setSelectedPlan('monthly');
+                      scrollToSection('payment');
+                    }
+                  }}
                   className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 px-8 py-4 rounded-lg font-semibold transition-all transform hover:scale-105"
                 >
-                  Choose Monthly
+                  {!isLoggedIn ? 'Login to Choose' : 'Choose Monthly'}
                 </button>
               </div>
 
@@ -355,10 +669,17 @@ function App() {
                 </ul>
 
                 <button
-                  onClick={() => scrollToSection('payment')}
+                  onClick={() => {
+                    if (!isLoggedIn) {
+                      setShowLogin(true);
+                    } else {
+                      setSelectedPlan('yearly');
+                      scrollToSection('payment');
+                    }
+                  }}
                   className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 px-8 py-4 rounded-lg font-semibold transition-all transform hover:scale-105"
                 >
-                  Choose Yearly
+                  {!isLoggedIn ? 'Login to Choose' : 'Choose Yearly'}
                 </button>
               </div>
             </div>
@@ -378,122 +699,124 @@ function App() {
       </section>
 
       {/* Payment Section */}
-      <section id="payment" className="py-20 bg-gray-800/50">
-        <div className="container mx-auto px-4">
-          <div className="max-w-2xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                Get Started
-              </h2>
-              <p className="text-xl text-gray-300 mb-8">
-                Pay securely to activate your access to Secure Vision software
-              </p>
-              <div className="bg-blue-500/20 border border-blue-500/30 rounded-lg p-4 mb-8">
-                <p className="text-blue-300 font-semibold">
-                  Selected Plan: {selectedPlan === 'monthly' ? 'Monthly (₹799/month)' : 'Yearly (₹8,999/year)'}
+      {isLoggedIn && (
+        <section id="payment" className="py-20 bg-gray-800/50">
+          <div className="container mx-auto px-4">
+            <div className="max-w-2xl mx-auto">
+              <div className="text-center mb-12">
+                <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                  Complete Your Purchase
+                </h2>
+                <p className="text-xl text-gray-300 mb-8">
+                  Pay securely to activate your access to Secure Vision software
                 </p>
+                <div className="bg-blue-500/20 border border-blue-500/30 rounded-lg p-4 mb-8">
+                  <p className="text-blue-300 font-semibold">
+                    Selected Plan: {selectedPlan === 'monthly' ? 'Monthly (₹799/month)' : 'Yearly (₹8,999/year)'}
+                  </p>
+                  <p className="text-gray-300 text-sm mt-1">
+                    Logged in as: {userEmail}
+                  </p>
+                </div>
               </div>
+
+              {!paymentSuccess ? (
+                <div className="bg-gray-800/60 p-8 rounded-2xl border border-gray-700">
+                  <form onSubmit={handlePayment} className="space-y-6">
+                    <div>
+                      <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
+                        Full Name
+                      </label>
+                      <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                        placeholder="Enter your full name"
+                        required
+                      />
+                    </div>
+
+                    <div>
+                      <label htmlFor="cardNumber" className="block text-sm font-medium text-gray-300 mb-2">
+                        Card Number
+                      </label>
+                      <input
+                        type="text"
+                        id="cardNumber"
+                        name="cardNumber"
+                        value={formData.cardNumber}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                        placeholder="1234 5678 9012 3456"
+                        required
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label htmlFor="expiry" className="block text-sm font-medium text-gray-300 mb-2">
+                          Expiry Date
+                        </label>
+                        <input
+                          type="text"
+                          id="expiry"
+                          className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                          placeholder="MM/YY"
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="cvv" className="block text-sm font-medium text-gray-300 mb-2">
+                          CVV
+                        </label>
+                        <input
+                          type="text"
+                          id="cvv"
+                          className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                          placeholder="123"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="bg-gray-700/50 p-4 rounded-lg">
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="text-gray-300">Plan:</span>
+                        <span className="text-white font-semibold">
+                          {selectedPlan === 'monthly' ? 'Monthly' : 'Yearly'}
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-center text-lg font-bold">
+                        <span className="text-gray-300">Total:</span>
+                        <span className="text-blue-400">
+                          {selectedPlan === 'monthly' ? '₹799' : '₹8,999'}
+                        </span>
+                      </div>
+                    </div>
+
+                    <button
+                      type="submit"
+                      className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 px-8 py-4 rounded-lg font-semibold transition-all transform hover:scale-105 flex items-center justify-center"
+                    >
+                      <CreditCard className="h-5 w-5 mr-2" />
+                      Pay Now
+                    </button>
+                  </form>
+                </div>
+              ) : (
+                <div className="bg-gradient-to-r from-green-500/20 to-blue-500/20 p-8 rounded-2xl border border-green-500/30 text-center">
+                  <CheckCircle className="h-16 w-16 text-green-400 mx-auto mb-4" />
+                  <h3 className="text-2xl font-semibold mb-2 text-green-400">Payment Processing...</h3>
+                  <p className="text-gray-300 mb-4">
+                    Please wait while we process your payment and prepare your software access.
+                  </p>
+                </div>
+              )}
             </div>
-
-            {!paymentSuccess ? (
-              <div className="bg-gray-800/60 p-8 rounded-2xl border border-gray-700">
-                <form onSubmit={handlePayment} className="space-y-6">
-                  <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
-                      Full Name
-                    </label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                      placeholder="Enter your full name"
-                      required
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="cardNumber" className="block text-sm font-medium text-gray-300 mb-2">
-                      Card Number
-                    </label>
-                    <input
-                      type="text"
-                      id="cardNumber"
-                      name="cardNumber"
-                      value={formData.cardNumber}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                      placeholder="1234 5678 9012 3456"
-                      required
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label htmlFor="expiry" className="block text-sm font-medium text-gray-300 mb-2">
-                        Expiry Date
-                      </label>
-                      <input
-                        type="text"
-                        id="expiry"
-                        className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                        placeholder="MM/YY"
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="cvv" className="block text-sm font-medium text-gray-300 mb-2">
-                        CVV
-                      </label>
-                      <input
-                        type="text"
-                        id="cvv"
-                        className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                        placeholder="123"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="bg-gray-700/50 p-4 rounded-lg">
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="text-gray-300">Plan:</span>
-                      <span className="text-white font-semibold">
-                        {selectedPlan === 'monthly' ? 'Monthly' : 'Yearly'}
-                      </span>
-                    </div>
-                    <div className="flex justify-between items-center text-lg font-bold">
-                      <span className="text-gray-300">Total:</span>
-                      <span className="text-blue-400">
-                        {selectedPlan === 'monthly' ? '₹799' : '₹8,999'}
-                      </span>
-                    </div>
-                  </div>
-
-                  <button
-                    type="submit"
-                    className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 px-8 py-4 rounded-lg font-semibold transition-all transform hover:scale-105 flex items-center justify-center"
-                  >
-                    <CreditCard className="h-5 w-5 mr-2" />
-                    Pay Now
-                  </button>
-                </form>
-              </div>
-            ) : (
-              <div className="bg-gradient-to-r from-green-500/20 to-blue-500/20 p-8 rounded-2xl border border-green-500/30 text-center">
-                <CheckCircle className="h-16 w-16 text-green-400 mx-auto mb-4" />
-                <h3 className="text-2xl font-semibold mb-2 text-green-400">Payment Successful!</h3>
-                <p className="text-gray-300 mb-4">
-                  Thank you for your purchase. Your Secure Vision access has been activated.
-                </p>
-                <p className="text-sm text-gray-400">
-                  You will receive a confirmation email shortly with your account details.
-                </p>
-              </div>
-            )}
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Contact Section */}
       <section id="contact" className="py-20">
