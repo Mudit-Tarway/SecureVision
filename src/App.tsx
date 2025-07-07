@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Shield, Eye, Bell, Database, Users, CreditCard, Mail, Phone, Menu, X, CheckCircle, Camera, Lock, Zap, Check, Star, User, ArrowRight, Home, Building, Store, School, Factory, Car } from 'lucide-react';
+import { Shield, Eye, Bell, Database, Users, CreditCard, Mail, Phone, Menu, X, CheckCircle, Camera, Lock, Zap, Check, Star, User, ArrowRight, Home, Building, Store, School, Factory, Car, Github, Linkedin } from 'lucide-react';
 
 function App() {
   const [activeSection, setActiveSection] = useState('home');
@@ -149,6 +149,39 @@ function App() {
     }
   ];
 
+  const teamMembers = [
+    {
+      name: 'Mudit Tarway',
+      role: 'Project Lead & AI Developer',
+      description: 'Specialized in machine learning algorithms and facial recognition systems. Led the development of core AI features.',
+      avatar: 'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=400'
+    },
+    {
+      name: 'Krish Jaiswal',
+      role: 'Backend Developer',
+      description: 'Expert in server architecture and database management. Built the robust backend infrastructure for real-time processing.',
+      avatar: 'https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=400'
+    },
+    {
+      name: 'Soumyadeep Das',
+      role: 'Frontend Developer',
+      description: 'UI/UX specialist focused on creating intuitive user interfaces. Designed the user-friendly dashboard and mobile app.',
+      avatar: 'https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&w=400'
+    },
+    {
+      name: 'Ranit Panda',
+      role: 'Security Engineer',
+      description: 'Cybersecurity expert ensuring data protection and secure communication protocols throughout the system.',
+      avatar: 'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=400'
+    },
+    {
+      name: 'Tamalika Chakraborty',
+      role: 'Quality Assurance & Testing',
+      description: 'Testing specialist ensuring system reliability and performance optimization across all platforms and use cases.',
+      avatar: 'https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=400'
+    }
+  ];
+
   return (
     <div className="min-h-screen bg-gray-900 text-white">
       {/* Header */}
@@ -164,7 +197,7 @@ function App() {
             
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center space-x-8">
-              {['home', 'product', 'applications', 'pricing', 'contact'].map((section) => (
+              {['home', 'product', 'applications', 'team', 'pricing', 'contact'].map((section) => (
                 <button
                   key={section}
                   onClick={() => scrollToSection(section)}
@@ -214,7 +247,7 @@ function App() {
           {/* Mobile Navigation */}
           {isMenuOpen && (
             <nav className="md:hidden mt-4 pb-4 border-t border-gray-800 pt-4">
-              {['home', 'product', 'applications', 'pricing', 'contact'].map((section) => (
+              {['home', 'product', 'applications', 'team', 'pricing', 'contact'].map((section) => (
                 <button
                   key={section}
                   onClick={() => scrollToSection(section)}
@@ -664,8 +697,98 @@ function App() {
         </div>
       </section>
 
+      {/* Team Section */}
+      <section id="team" className="py-20 bg-gray-800/50">
+        <div className="container mx-auto px-4">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                Meet Our Team
+              </h2>
+              <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+                The brilliant minds behind Secure Vision - a dedicated team of experts passionate about revolutionizing home security through AI technology
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {teamMembers.map((member, index) => (
+                <div key={index} className="bg-gray-800/60 p-6 rounded-2xl border border-gray-700 hover:border-blue-500 transition-all hover:transform hover:scale-105 text-center">
+                  <div className="mb-6">
+                    <img
+                      src={member.avatar}
+                      alt={member.name}
+                      className="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-gradient-to-r from-blue-500 to-purple-600 object-cover"
+                    />
+                    <h3 className="text-xl font-bold mb-1">{member.name}</h3>
+                    <p className="text-blue-400 font-semibold text-sm mb-3">{member.role}</p>
+                  </div>
+                  
+                  <p className="text-gray-300 text-sm leading-relaxed mb-6">
+                    {member.description}
+                  </p>
+                  
+                  <div className="flex justify-center space-x-3">
+                    <button className="bg-gray-700 hover:bg-blue-600 p-2 rounded-lg transition-colors">
+                      <Github className="h-4 w-4" />
+                    </button>
+                    <button className="bg-gray-700 hover:bg-blue-600 p-2 rounded-lg transition-colors">
+                      <Linkedin className="h-4 w-4" />
+                    </button>
+                    <button className="bg-gray-700 hover:bg-blue-600 p-2 rounded-lg transition-colors">
+                      <Mail className="h-4 w-4" />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Team Stats */}
+            <div className="mt-16 grid grid-cols-1 md:grid-cols-4 gap-8">
+              <div className="text-center">
+                <div className="bg-gradient-to-r from-blue-500 to-purple-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Users className="h-8 w-8" />
+                </div>
+                <h4 className="text-2xl font-bold text-blue-400 mb-2">5</h4>
+                <p className="text-gray-300">Team Members</p>
+              </div>
+              <div className="text-center">
+                <div className="bg-gradient-to-r from-purple-500 to-blue-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Zap className="h-8 w-8" />
+                </div>
+                <h4 className="text-2xl font-bold text-blue-400 mb-2">6+</h4>
+                <p className="text-gray-300">Months Development</p>
+              </div>
+              <div className="text-center">
+                <div className="bg-gradient-to-r from-blue-500 to-purple-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Eye className="h-8 w-8" />
+                </div>
+                <h4 className="text-2xl font-bold text-blue-400 mb-2">99.7%</h4>
+                <p className="text-gray-300">Recognition Accuracy</p>
+              </div>
+              <div className="text-center">
+                <div className="bg-gradient-to-r from-purple-500 to-blue-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Shield className="h-8 w-8" />
+                </div>
+                <h4 className="text-2xl font-bold text-blue-400 mb-2">24/7</h4>
+                <p className="text-gray-300">Security Monitoring</p>
+              </div>
+            </div>
+
+            {/* Academic Project Note */}
+            <div className="mt-16 text-center">
+              <div className="bg-gradient-to-r from-blue-500/20 to-purple-600/20 p-6 rounded-2xl border border-blue-500/30 max-w-2xl mx-auto">
+                <h4 className="text-lg font-semibold mb-3 text-blue-400">Academic Excellence</h4>
+                <p className="text-gray-300 text-sm leading-relaxed">
+                  This project represents the culmination of our academic journey, combining theoretical knowledge with practical implementation to create a real-world solution for modern security challenges.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Pricing Section */}
-      <section id="pricing" className="py-20 bg-gray-800/50">
+      <section id="pricing" className="py-20">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-16">
@@ -814,7 +937,7 @@ function App() {
 
       {/* Payment Section */}
       {isLoggedIn && (
-        <section id="payment" className="py-20">
+        <section id="payment" className="py-20 bg-gray-800/50">
           <div className="container mx-auto px-4">
             <div className="max-w-2xl mx-auto">
               <div className="text-center mb-12">
@@ -933,7 +1056,7 @@ function App() {
       )}
 
       {/* Contact Section */}
-      <section id="contact" className="py-20 bg-gray-800/50">
+      <section id="contact" className="py-20">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
