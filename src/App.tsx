@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Shield, Eye, Bell, Database, Users, CreditCard, Mail, Phone, Menu, X, CheckCircle, Camera, Lock, Zap, Check, Star, User, ArrowRight, Home, Building, Car, Store, School, Hospital, Linkedin, Github, Twitter } from 'lucide-react';
+import { Shield, Eye, Bell, Database, Users, CreditCard, Mail, Phone, Menu, X, CheckCircle, Camera, Lock, Zap, Check, Star, User, ArrowRight, Home, Building, Car, Store, School, Guitar as Hospital, Linkedin, Github, Twitter } from 'lucide-react';
 
 function App() {
   const [activeSection, setActiveSection] = useState('home');
