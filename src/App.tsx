@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Shield, Eye, Bell, Database, Users, CreditCard, Mail, Phone, Menu, X, CheckCircle, Camera, Lock, Zap, Check, Star, User, ArrowRight } from 'lucide-react';
+import { Shield, Eye, Bell, Database, Users, CreditCard, Mail, Phone, Menu, X, CheckCircle, Camera, Lock, Zap, Check, Star, User, ArrowRight, Home, Building, Store, School, Factory, Car } from 'lucide-react';
 
 function App() {
   const [activeSection, setActiveSection] = useState('home');
@@ -110,6 +110,45 @@ function App() {
     }
   };
 
+  const useCases = [
+    {
+      icon: Home,
+      title: 'Residential Homes',
+      description: 'Protect your family and property with intelligent monitoring that recognizes familiar faces and alerts you to unknown visitors.',
+      features: ['Family member recognition', 'Visitor logging', 'Package delivery alerts', 'Night vision monitoring']
+    },
+    {
+      icon: Building,
+      title: 'Office Buildings',
+      description: 'Enhance workplace security with employee recognition and unauthorized access prevention for corporate environments.',
+      features: ['Employee access control', 'Visitor management', 'After-hours monitoring', 'Multi-floor coverage']
+    },
+    {
+      icon: Store,
+      title: 'Retail Stores',
+      description: 'Monitor customer traffic, prevent theft, and identify VIP customers for personalized service in retail environments.',
+      features: ['Customer analytics', 'Theft prevention', 'VIP recognition', 'Staff monitoring']
+    },
+    {
+      icon: School,
+      title: 'Educational Institutions',
+      description: 'Ensure student safety with campus-wide monitoring, unauthorized entry prevention, and emergency response systems.',
+      features: ['Student safety', 'Campus security', 'Visitor screening', 'Emergency alerts']
+    },
+    {
+      icon: Factory,
+      title: 'Industrial Facilities',
+      description: 'Secure manufacturing plants and warehouses with robust monitoring for restricted areas and safety compliance.',
+      features: ['Restricted area access', 'Safety compliance', 'Worker identification', 'Perimeter security']
+    },
+    {
+      icon: Car,
+      title: 'Parking Areas',
+      description: 'Monitor parking lots and garages with license plate recognition and unauthorized vehicle detection.',
+      features: ['Vehicle recognition', 'Parking management', 'Theft prevention', '24/7 surveillance']
+    }
+  ];
+
   return (
     <div className="min-h-screen bg-gray-900 text-white">
       {/* Header */}
@@ -125,7 +164,7 @@ function App() {
             
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center space-x-8">
-              {['home', 'product', 'pricing', 'contact'].map((section) => (
+              {['home', 'product', 'applications', 'pricing', 'contact'].map((section) => (
                 <button
                   key={section}
                   onClick={() => scrollToSection(section)}
@@ -133,7 +172,8 @@ function App() {
                     activeSection === section ? 'text-blue-400' : 'text-gray-300'
                   }`}
                 >
-                  {section === 'product' ? 'Product Details' : section}
+                  {section === 'product' ? 'Product Details' : 
+                   section === 'applications' ? 'Applications' : section}
                 </button>
               ))}
               
@@ -174,13 +214,14 @@ function App() {
           {/* Mobile Navigation */}
           {isMenuOpen && (
             <nav className="md:hidden mt-4 pb-4 border-t border-gray-800 pt-4">
-              {['home', 'product', 'pricing', 'contact'].map((section) => (
+              {['home', 'product', 'applications', 'pricing', 'contact'].map((section) => (
                 <button
                   key={section}
                   onClick={() => scrollToSection(section)}
                   className="block w-full text-left py-2 capitalize transition-colors hover:text-blue-400"
                 >
-                  {section === 'product' ? 'Product Details' : section}
+                  {section === 'product' ? 'Product Details' : 
+                   section === 'applications' ? 'Applications' : section}
                 </button>
               ))}
               {!isLoggedIn && (
@@ -550,8 +591,81 @@ function App() {
         </div>
       </section>
 
+      {/* Applications Section */}
+      <section id="applications" className="py-20">
+        <div className="container mx-auto px-4">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                Where You Can Use Secure Vision
+              </h2>
+              <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+                Our AI-powered security solution adapts to various environments, providing comprehensive protection across different sectors and use cases
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {useCases.map((useCase, index) => {
+                const IconComponent = useCase.icon;
+                return (
+                  <div key={index} className="bg-gray-800/60 p-6 rounded-2xl border border-gray-700 hover:border-blue-500 transition-all hover:transform hover:scale-105">
+                    <div className="flex items-center mb-4">
+                      <div className="bg-gradient-to-r from-blue-500 to-purple-600 w-12 h-12 rounded-lg flex items-center justify-center mr-4">
+                        <IconComponent className="h-6 w-6" />
+                      </div>
+                      <h3 className="text-xl font-semibold">{useCase.title}</h3>
+                    </div>
+                    
+                    <p className="text-gray-300 mb-4 leading-relaxed">
+                      {useCase.description}
+                    </p>
+                    
+                    <div className="space-y-2">
+                      <h4 className="text-sm font-semibold text-blue-400 mb-2">Key Features:</h4>
+                      <ul className="space-y-1">
+                        {useCase.features.map((feature, featureIndex) => (
+                          <li key={featureIndex} className="flex items-center text-sm text-gray-400">
+                            <div className="w-1.5 h-1.5 bg-blue-400 rounded-full mr-2 flex-shrink-0"></div>
+                            {feature}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Call to Action */}
+            <div className="text-center mt-16">
+              <div className="bg-gradient-to-r from-blue-500/20 to-purple-600/20 p-8 rounded-2xl border border-blue-500/30">
+                <h3 className="text-2xl font-bold mb-4">Ready to Secure Your Space?</h3>
+                <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
+                  Whether it's your home, office, or business, Secure Vision adapts to your specific security needs with intelligent AI monitoring.
+                </p>
+                {!isLoggedIn ? (
+                  <button
+                    onClick={() => setShowLogin(true)}
+                    className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 px-8 py-4 rounded-lg font-semibold transition-all transform hover:scale-105"
+                  >
+                    Get Started Today
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => setShowSubscriptionModal(true)}
+                    className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 px-8 py-4 rounded-lg font-semibold transition-all transform hover:scale-105"
+                  >
+                    Choose Your Plan
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Pricing Section */}
-      <section id="pricing" className="py-20">
+      <section id="pricing" className="py-20 bg-gray-800/50">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-16">
@@ -700,7 +814,7 @@ function App() {
 
       {/* Payment Section */}
       {isLoggedIn && (
-        <section id="payment" className="py-20 bg-gray-800/50">
+        <section id="payment" className="py-20">
           <div className="container mx-auto px-4">
             <div className="max-w-2xl mx-auto">
               <div className="text-center mb-12">
@@ -819,7 +933,7 @@ function App() {
       )}
 
       {/* Contact Section */}
-      <section id="contact" className="py-20">
+      <section id="contact" className="py-20 bg-gray-800/50">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
